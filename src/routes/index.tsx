@@ -1,24 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+// "/" has no content of its own — send people to the dashboard.
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Kanbanly — Collaborative Kanban board" },
+      { name: "description", content: "Plan projects on drag-and-drop Kanban boards." },
+      { property: "og:title", content: "Kanbanly — Collaborative Kanban board" },
+      { property: "og:description", content: "Plan projects on drag-and-drop Kanban boards." },
+    ],
+  }),
+  beforeLoad: () => {
+    throw redirect({ to: "/dashboard" });
+  },
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
