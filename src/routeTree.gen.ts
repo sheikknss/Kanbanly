@@ -10,33 +10,166 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthedDashboardRouteImport } from './routes/_authed.dashboard'
+import { Route as AuthedReactConceptsRouteImport } from './routes/_authed.react-concepts'
+import { Route as AuthedSettingsRouteImport } from './routes/_authed.settings'
+import { Route as AuthedStateManagementRouteImport } from './routes/_authed.state-management'
+import { Route as AuthedProjectsIndexRouteImport } from './routes/_authed.projects.index'
+import { Route as AuthedProjectsProjectIdRouteImport } from './routes/_authed.projects.$projectId'
+import { Route as AuthedTasksTaskIdRouteImport } from './routes/_authed.tasks.$taskId'
+import { Route as AuthedProjectsProjectIdIndexRouteImport } from './routes/_authed.projects.$projectId.index'
+import { Route as AuthedProjectsProjectIdBoardRouteImport } from './routes/_authed.projects.$projectId.board'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedReactConceptsRoute = AuthedReactConceptsRouteImport.update({
+  id: '/react-concepts',
+  path: '/react-concepts',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedSettingsRoute = AuthedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedStateManagementRoute = AuthedStateManagementRouteImport.update({
+  id: '/state-management',
+  path: '/state-management',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedProjectsIndexRoute = AuthedProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedProjectsProjectIdRoute = AuthedProjectsProjectIdRouteImport.update({
+  id: '/projects/$projectId',
+  path: '/projects/$projectId',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedTasksTaskIdRoute = AuthedTasksTaskIdRouteImport.update({
+  id: '/tasks/$taskId',
+  path: '/tasks/$taskId',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedProjectsProjectIdIndexRoute =
+  AuthedProjectsProjectIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthedProjectsProjectIdRoute,
+  } as any)
+const AuthedProjectsProjectIdBoardRoute =
+  AuthedProjectsProjectIdBoardRouteImport.update({
+    id: '/board',
+    path: '/board',
+    getParentRoute: () => AuthedProjectsProjectIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/react-concepts': typeof AuthedReactConceptsRoute
+  '/settings': typeof AuthedSettingsRoute
+  '/state-management': typeof AuthedStateManagementRoute
+  '/projects/$projectId': typeof AuthedProjectsProjectIdRouteWithChildren
+  '/tasks/$taskId': typeof AuthedTasksTaskIdRoute
+  '/projects/': typeof AuthedProjectsIndexRoute
+  '/projects/$projectId/board': typeof AuthedProjectsProjectIdBoardRoute
+  '/projects/$projectId/': typeof AuthedProjectsProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/react-concepts': typeof AuthedReactConceptsRoute
+  '/settings': typeof AuthedSettingsRoute
+  '/state-management': typeof AuthedStateManagementRoute
+  '/tasks/$taskId': typeof AuthedTasksTaskIdRoute
+  '/projects': typeof AuthedProjectsIndexRoute
+  '/projects/$projectId/board': typeof AuthedProjectsProjectIdBoardRoute
+  '/projects/$projectId': typeof AuthedProjectsProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authed': typeof AuthedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_authed/dashboard': typeof AuthedDashboardRoute
+  '/_authed/react-concepts': typeof AuthedReactConceptsRoute
+  '/_authed/settings': typeof AuthedSettingsRoute
+  '/_authed/state-management': typeof AuthedStateManagementRoute
+  '/_authed/projects/$projectId': typeof AuthedProjectsProjectIdRouteWithChildren
+  '/_authed/tasks/$taskId': typeof AuthedTasksTaskIdRoute
+  '/_authed/projects/': typeof AuthedProjectsIndexRoute
+  '/_authed/projects/$projectId/board': typeof AuthedProjectsProjectIdBoardRoute
+  '/_authed/projects/$projectId/': typeof AuthedProjectsProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/react-concepts'
+    | '/settings'
+    | '/state-management'
+    | '/projects/$projectId'
+    | '/tasks/$taskId'
+    | '/projects/'
+    | '/projects/$projectId/board'
+    | '/projects/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/react-concepts'
+    | '/settings'
+    | '/state-management'
+    | '/tasks/$taskId'
+    | '/projects'
+    | '/projects/$projectId/board'
+    | '/projects/$projectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/login'
+    | '/_authed/dashboard'
+    | '/_authed/react-concepts'
+    | '/_authed/settings'
+    | '/_authed/state-management'
+    | '/_authed/projects/$projectId'
+    | '/_authed/tasks/$taskId'
+    | '/_authed/projects/'
+    | '/_authed/projects/$projectId/board'
+    | '/_authed/projects/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +181,129 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed/dashboard': {
+      id: '/_authed/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthedDashboardRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/react-concepts': {
+      id: '/_authed/react-concepts'
+      path: '/react-concepts'
+      fullPath: '/react-concepts'
+      preLoaderRoute: typeof AuthedReactConceptsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/settings': {
+      id: '/_authed/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthedSettingsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/state-management': {
+      id: '/_authed/state-management'
+      path: '/state-management'
+      fullPath: '/state-management'
+      preLoaderRoute: typeof AuthedStateManagementRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/projects/': {
+      id: '/_authed/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof AuthedProjectsIndexRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/projects/$projectId': {
+      id: '/_authed/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AuthedProjectsProjectIdRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/tasks/$taskId': {
+      id: '/_authed/tasks/$taskId'
+      path: '/tasks/$taskId'
+      fullPath: '/tasks/$taskId'
+      preLoaderRoute: typeof AuthedTasksTaskIdRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/projects/$projectId/': {
+      id: '/_authed/projects/$projectId/'
+      path: '/'
+      fullPath: '/projects/$projectId/'
+      preLoaderRoute: typeof AuthedProjectsProjectIdIndexRouteImport
+      parentRoute: typeof AuthedProjectsProjectIdRoute
+    }
+    '/_authed/projects/$projectId/board': {
+      id: '/_authed/projects/$projectId/board'
+      path: '/board'
+      fullPath: '/projects/$projectId/board'
+      preLoaderRoute: typeof AuthedProjectsProjectIdBoardRouteImport
+      parentRoute: typeof AuthedProjectsProjectIdRoute
+    }
   }
 }
 
+interface AuthedProjectsProjectIdRouteChildren {
+  AuthedProjectsProjectIdBoardRoute: typeof AuthedProjectsProjectIdBoardRoute
+  AuthedProjectsProjectIdIndexRoute: typeof AuthedProjectsProjectIdIndexRoute
+}
+
+const AuthedProjectsProjectIdRouteChildren: AuthedProjectsProjectIdRouteChildren =
+  {
+    AuthedProjectsProjectIdBoardRoute: AuthedProjectsProjectIdBoardRoute,
+    AuthedProjectsProjectIdIndexRoute: AuthedProjectsProjectIdIndexRoute,
+  }
+
+const AuthedProjectsProjectIdRouteWithChildren =
+  AuthedProjectsProjectIdRoute._addFileChildren(
+    AuthedProjectsProjectIdRouteChildren,
+  )
+
+interface AuthedRouteChildren {
+  AuthedDashboardRoute: typeof AuthedDashboardRoute
+  AuthedReactConceptsRoute: typeof AuthedReactConceptsRoute
+  AuthedSettingsRoute: typeof AuthedSettingsRoute
+  AuthedStateManagementRoute: typeof AuthedStateManagementRoute
+  AuthedProjectsProjectIdRoute: typeof AuthedProjectsProjectIdRouteWithChildren
+  AuthedTasksTaskIdRoute: typeof AuthedTasksTaskIdRoute
+  AuthedProjectsIndexRoute: typeof AuthedProjectsIndexRoute
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardRoute: AuthedDashboardRoute,
+  AuthedReactConceptsRoute: AuthedReactConceptsRoute,
+  AuthedSettingsRoute: AuthedSettingsRoute,
+  AuthedStateManagementRoute: AuthedStateManagementRoute,
+  AuthedProjectsProjectIdRoute: AuthedProjectsProjectIdRouteWithChildren,
+  AuthedTasksTaskIdRoute: AuthedTasksTaskIdRoute,
+  AuthedProjectsIndexRoute: AuthedProjectsIndexRoute,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthedRoute: AuthedRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
