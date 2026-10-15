@@ -1,29 +1,35 @@
-# Welcome to your Lovable project
+# Kanbanly — Advanced React Learning Project
 
-This project was built with [Lovable](https://lovable.dev).
+A collaborative Kanban / project-management app built to study and explain modern React in interviews. Feature code is plain JavaScript (`.js` / `.jsx`).
 
-## Build with Lovable
+## Tech stack
+React 19 · Vite · TanStack Router (file-based routes in `src/routes`) · Tailwind CSS v4 · shadcn/ui · dnd-kit · Redux Toolkit · Zustand · Context API · Recharts · Vitest
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+## State management
+| Tool | Owns | Why |
+|---|---|---|
+| Context | auth user, theme | rarely changes, read everywhere |
+| Zustand | sidebar, filters, dialogs | frequent UI updates, selector subscriptions |
+| Redux Toolkit | projects, columns, tasks, comments, activity | relational business data, many actions, devtools |
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+## Structure
+```
+src/api          mock API service (localStorage + latency) and users
+src/store/redux  workspaceSlice (entity adapters, thunks, memoized selectors)
+src/store/zustand uiStore
+src/context      AuthContext, ThemeContext
+src/hooks        useDebounce, useLocalStorage, useKeyboardShortcut, useFilteredTasks, usePermissions, useMediaQuery
+src/features     board, tasks, projects, dashboard, notifications
+src/layouts      AppShell
+src/routes       _authed (protected layout), dashboard, projects/$projectId(/board), tasks/$taskId, settings, react-concepts, state-management
+src/tests        reducer, filter and validation tests
 ```
 
-## Built with
+## Performance
+Normalized state, select-by-id leaf components, `React.memo` cards, `useMemo` filtering, `useDeferredValue` search, `useTransition` filters, lazy-loaded board and charts.
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+## Testing
+`bunx vitest run`
+
+## Future improvements
+Real backend, realtime collaboration, optimistic updates with rollback, E2E tests.
