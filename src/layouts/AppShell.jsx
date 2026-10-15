@@ -8,6 +8,7 @@ import {
   Menu,
   Moon,
   Network,
+  Component as ComponentIcon,
   Settings,
   Sun,
 } from "lucide-react";
@@ -27,6 +28,7 @@ const NAV = [
   { to: "/projects", label: "Projects", icon: FolderKanban },
   { to: "/react-concepts", label: "React Concepts", icon: BookOpen },
   { to: "/state-management", label: "State Management", icon: Network },
+  { to: "/components", label: "Components", icon: ComponentIcon },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 

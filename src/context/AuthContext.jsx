@@ -11,17 +11,19 @@ import { getUserById } from "@/api/users";
 const AuthContext = createContext(null);
 const KEY = "kanban.auth";
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children, initialUserId = null }) {
+  // initialUserId lets Storybook/tests start signed in without storage.
+  const [user, setUser] = useState(() => (initialUserId ? getUserById(initialUserId) : null));
   // `ready` prevents a flash-redirect to /login before we've read storage.
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(!!initialUserId);
 
   // Browser storage must be read after hydration, never during render.
   useEffect(() => {
+    if (initialUserId) return;
     const id = localStorage.getItem(KEY);
     if (id) setUser(getUserById(id));
     setReady(true);
-  }, []);
+  }, [initialUserId]);
 
   const login = useCallback((userId) => {
     localStorage.setItem(KEY, userId);

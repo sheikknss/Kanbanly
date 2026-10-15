@@ -260,7 +260,7 @@ const TaskCard = memo(function TaskCard({ taskId, columnId }) {
   );
 });
 
-const TaskCardBody = memo(function TaskCardBody({ taskId, overlay }) {
+export const TaskCardBody = memo(function TaskCardBody({ taskId, overlay }) {
   const task = useSelector((s) => selectTaskById(s, taskId));
   if (!task) return null;
   const overdue = isOverdue(task);

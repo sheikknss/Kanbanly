@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthedComponentsRouteImport } from './routes/_authed.components'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed.dashboard'
 import { Route as AuthedReactConceptsRouteImport } from './routes/_authed.react-concepts'
 import { Route as AuthedSettingsRouteImport } from './routes/_authed.settings'
@@ -35,6 +36,11 @@ const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedComponentsRoute = AuthedComponentsRouteImport.update({
+  id: '/components',
+  path: '/components',
+  getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   id: '/dashboard',
@@ -87,6 +93,7 @@ const AuthedProjectsProjectIdBoardRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/components': typeof AuthedComponentsRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/react-concepts': typeof AuthedReactConceptsRoute
   '/settings': typeof AuthedSettingsRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/components': typeof AuthedComponentsRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/react-concepts': typeof AuthedReactConceptsRoute
   '/settings': typeof AuthedSettingsRoute
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/login': typeof LoginRoute
+  '/_authed/components': typeof AuthedComponentsRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/react-concepts': typeof AuthedReactConceptsRoute
   '/_authed/settings': typeof AuthedSettingsRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/components'
     | '/dashboard'
     | '/react-concepts'
     | '/settings'
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/components'
     | '/dashboard'
     | '/react-concepts'
     | '/settings'
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authed'
     | '/login'
+    | '/_authed/components'
     | '/_authed/dashboard'
     | '/_authed/react-concepts'
     | '/_authed/settings'
@@ -194,6 +206,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authed/components': {
+      id: '/_authed/components'
+      path: '/components'
+      fullPath: '/components'
+      preLoaderRoute: typeof AuthedComponentsRouteImport
+      parentRoute: typeof AuthedRoute
     }
     '/_authed/dashboard': {
       id: '/_authed/dashboard'
@@ -278,6 +297,7 @@ const AuthedProjectsProjectIdRouteWithChildren =
   )
 
 interface AuthedRouteChildren {
+  AuthedComponentsRoute: typeof AuthedComponentsRoute
   AuthedDashboardRoute: typeof AuthedDashboardRoute
   AuthedReactConceptsRoute: typeof AuthedReactConceptsRoute
   AuthedSettingsRoute: typeof AuthedSettingsRoute
@@ -288,6 +308,7 @@ interface AuthedRouteChildren {
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedComponentsRoute: AuthedComponentsRoute,
   AuthedDashboardRoute: AuthedDashboardRoute,
   AuthedReactConceptsRoute: AuthedReactConceptsRoute,
   AuthedSettingsRoute: AuthedSettingsRoute,
