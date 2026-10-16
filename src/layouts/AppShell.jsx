@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useUIStore } from "@/store/zustand/uiStore";
+import { useMenuVisibilityStore, useUIStore } from "@/store/zustand/uiStore";
 import { useMediaQuery } from "@/hooks";
 import { ROLE_LABELS } from "@/api/users";
 import { UserAvatar } from "@/components/common";
@@ -39,6 +39,7 @@ export function AppShell({ children }) {
   const sidebarOpen = useUIStore((s) => s.sidebarOpen);
   const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const setSidebarOpen = useUIStore((s) => s.setSidebarOpen);
+  const hiddenMenuItems = useMenuVisibilityStore((s) => s.hiddenMenuItems);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -51,7 +52,10 @@ export function AppShell({ children }) {
 
   return (
     <div className="flex min-h-screen">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+      >
         Skip to content
       </a>
 
@@ -69,16 +73,25 @@ export function AppShell({ children }) {
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b px-4">
-          <span className="grid size-7 place-items-center rounded bg-primary font-display text-sm font-bold text-primary-foreground">K</span>
+          <span className="grid size-7 place-items-center rounded bg-primary font-display text-sm font-bold text-primary-foreground">
+            K
+          </span>
           <span className="font-display text-lg font-bold">Kanbanly</span>
         </div>
         <nav className="flex-1 space-y-0.5 p-2">
-          {NAV.map(({ to, label, icon: Icon }) => (
+          {NAV.filter(({ to }) => {
+            if (to === "/react-concepts") return !hiddenMenuItems.reactConcepts;
+            if (to === "/state-management") return !hiddenMenuItems.stateManagement;
+            if (to === "/components") return !hiddenMenuItems.components;
+            return true;
+          }).map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
               className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              activeProps={{ className: "bg-sidebar-accent font-medium !text-sidebar-accent-foreground" }}
+              activeProps={{
+                className: "bg-sidebar-accent font-medium !text-sidebar-accent-foreground",
+              }}
             >
               <Icon className="size-4" aria-hidden />
               {label}
@@ -101,13 +114,24 @@ export function AppShell({ children }) {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b bg-background/85 px-3 backdrop-blur md:px-5">
-          <Button variant="ghost" size="icon" onClick={toggleSidebar} aria-label="Toggle sidebar" aria-expanded={sidebarOpen}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            aria-label="Toggle sidebar"
+            aria-expanded={sidebarOpen}
+          >
             <Menu className="size-4" />
           </Button>
           <GlobalSearch />
           <div className="ml-auto flex items-center gap-1">
             <NotificationCenter />
-            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+            >
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </Button>
           </div>

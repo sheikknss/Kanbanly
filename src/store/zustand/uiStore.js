@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 /**
  * WHY ZUSTAND HERE?
@@ -40,6 +41,26 @@ export const useUIStore = create((set) => ({
   openProjectDialog: (projectId = null) => set({ projectDialog: { open: true, projectId } }),
   closeProjectDialog: () => set({ projectDialog: { open: false, projectId: null } }),
 }));
+
+export const useMenuVisibilityStore = create(
+  persist(
+    (set) => ({
+      hiddenMenuItems: {
+        reactConcepts: true,
+        stateManagement: true,
+        components: true,
+      },
+      setMenuItemHidden: (item, hidden) =>
+        set((state) => ({
+          hiddenMenuItems: { ...state.hiddenMenuItems, [item]: hidden },
+        })),
+    }),
+    {
+      name: "kanbanly-menu-visibility",
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
+);
 
 /** Derived helper selector: how many filters are not default. */
 export const selectActiveFilterCount = (s) =>
