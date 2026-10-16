@@ -3,6 +3,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { CONCEPTS } from "@/data/concepts";
 import { PageHeader } from "@/components/common";
+import { SourceSnippet } from "@/components/SourceSnippet";
 
 export const Route = createFileRoute("/_authed/react-concepts")({
   head: () => ({
@@ -42,7 +43,18 @@ function ConceptsPage() {
                 <p><span className="eyebrow block">Why</span>{c.why}</p>
                 <p className="rounded-lg bg-accent p-3 text-accent-foreground"><span className="eyebrow block">Interview question</span>{c.q}</p>
               </div>
-              <pre className="overflow-x-auto rounded-lg bg-muted p-3 font-mono text-xs leading-relaxed"><code>{c.code}</code></pre>
+              <div className="space-y-3">
+                <div>
+                  <p className="eyebrow mb-1">Minimal example</p>
+                  <pre className="overflow-x-auto rounded-lg bg-muted p-3 font-mono text-xs leading-relaxed"><code>{c.code}</code></pre>
+                </div>
+                {c.source && (
+                  <div>
+                    <p className="eyebrow mb-1">Real code in this project</p>
+                    <SourceSnippet file={c.source.file} match={c.source.match} lines={16} />
+                  </div>
+                )}
+              </div>
             </div>
           </details>
         ))}
